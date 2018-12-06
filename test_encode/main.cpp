@@ -1,7 +1,7 @@
 
 //https://github.com/leixiaohua1020/simplest_ffmpeg_video_encoder/blob/master/ds_480x272.yuv
 #include <iostream>
-
+#include "test.h"
 using namespace std;
 
 
@@ -60,9 +60,18 @@ int flush_encoder(AVFormatContext *fmt_ctx,unsigned int stream_index){
     }
     return ret;
 }
-
+#include <unistd.h>
 int main(int argc, char* argv[])
 {
+
+#if 0
+    av_register_all();//register
+
+    TestH264 t;
+    t.run();
+    usleep(10000000);
+    return 0;
+#endif
     AVFormatContext* pFormatCtx;
     AVOutputFormat* fmt;
     AVStream* video_st;
@@ -83,7 +92,7 @@ int main(int argc, char* argv[])
     //const char* out_file = "src01.hevc";
     const char* out_file = "ds.h264";
 
-    av_register_all();
+    av_register_all();//register
     //Method1.
     pFormatCtx = avformat_alloc_context();
     //Guess Format
@@ -161,6 +170,16 @@ int main(int argc, char* argv[])
 
 
     pFrame = av_frame_alloc();
+
+
+    /////
+    pFrame->width=480;
+    pFrame->height=272;
+    pFrame->format=AV_PIX_FMT_YUVJ420P;
+    ///
+
+
+
     picture_size = avpicture_get_size(pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
     picture_buf = (uint8_t *)av_malloc(picture_size);
     avpicture_fill((AVPicture *)pFrame, picture_buf, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height);
