@@ -15,7 +15,8 @@ int read_buffer1(unsigned char *buf, int buf_size ){
 
 int main()
 {
-
+    Test t;
+    return 0;
 
 
     RtmpSender sender;
